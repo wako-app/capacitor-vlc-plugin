@@ -4,8 +4,12 @@ import android.util.Log;
 
 public class VlcPlayer {
 
-    public String echo(String value) {
-        Log.i("Echo", value);
-        return value;
+    private Object channels;
+    private Object idx;
+
+    public <channels, idx> Object[] stream(channels idx) {
+        Log.i("Channels", (String) channels);
+         Log.i("Index", (String) idx);
+        return new Object[]{channels, idx};
     }
 }

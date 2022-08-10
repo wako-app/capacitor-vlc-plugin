@@ -13,24 +13,24 @@ npx cap sync
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
+* [`stream(...)`](#stream)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### echo(...)
+### stream(...)
 
 ```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
+stream(options: { channels: any[]; idx: number; }) => Promise<{ channels: any[]; idx: number; }>
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
+| Param         | Type                                           |
+| ------------- | ---------------------------------------------- |
+| **`options`** | <code>{ channels: any[]; idx: number; }</code> |
 
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+**Returns:** <code>Promise&lt;{ channels: any[]; idx: number; }&gt;</code>
 
 --------------------
 

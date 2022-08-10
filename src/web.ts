@@ -3,8 +3,9 @@ import { WebPlugin } from '@capacitor/core';
 import type { VlcPlayerPlugin } from './definitions';
 
 export class VlcPlayerWeb extends WebPlugin implements VlcPlayerPlugin {
-  async echo(options: { value: string }): Promise<{ value: string }> {
-    console.log('ECHO', options);
-    return options;
+  async stream(options: { channels: any[]; idx: number; }): Promise<{ channels: any[]; idx: number; }> {
+      console.log('channels: ', options.channels);
+      console.log('index: ', options.idx);
+      return options;
   }
 }

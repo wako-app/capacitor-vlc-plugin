@@ -1,3 +1,3 @@
 export interface VlcPlayerPlugin {
-  echo(options: { value: string }): Promise<{ value: string }>;
+  stream(options: { channels: any[], idx: number }): Promise<{ channels: any[], idx: number }>;
 }
