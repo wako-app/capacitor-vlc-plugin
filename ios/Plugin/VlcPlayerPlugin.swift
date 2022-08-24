@@ -9,7 +9,7 @@ import Capacitor
 public class VlcPlayerPlugin: CAPPlugin {
     private let implementation = VlcPlayer()
 
-    @objc func echo(_ call: CAPPluginCall) {
+    @objc func stream(_ call: CAPPluginCall) {
         let value = call.getString("value") ?? ""
         call.resolve([
             "value": implementation.echo(value)
