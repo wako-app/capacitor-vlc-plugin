@@ -23,14 +23,14 @@ npx cap sync
 ### stream(...)
 
 ```typescript
-stream(options: { channels: any[]; idx: number; }) => Promise<{ channels: any[]; idx: number; }>
+stream(options: { link: string; }) => Promise<{ link: string; }>
 ```
 
-| Param         | Type                                           |
-| ------------- | ---------------------------------------------- |
-| **`options`** | <code>{ channels: any[]; idx: number; }</code> |
+| Param         | Type                           |
+| ------------- | ------------------------------ |
+| **`options`** | <code>{ link: string; }</code> |
 
-**Returns:** <code>Promise&lt;{ channels: any[]; idx: number; }&gt;</code>
+**Returns:** <code>Promise&lt;{ link: string; }&gt;</code>
 
 --------------------
 
