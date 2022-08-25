@@ -4,17 +4,23 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class StreamActivity extends Activity implements IVLCVout.Callback {
@@ -33,6 +39,11 @@ public class StreamActivity extends Activity implements IVLCVout.Callback {
     private LibVLC libvlc;
     private MediaPlayer mMediaPlayer = null;
 
+    private Handler mHandler;
+    private Runnable mStatusChecker;
+
+    private CountDownTimer cdt;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +53,11 @@ public class StreamActivity extends Activity implements IVLCVout.Callback {
         // Receive path to play from intent
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mFilePath = extras.getString("link");
+            try {
+                mFilePath = extras.getString("link");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         mSurface = (SurfaceView) findViewById(R.id.surface);
@@ -52,6 +67,7 @@ public class StreamActivity extends Activity implements IVLCVout.Callback {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         DisplayHeight = displayMetrics.heightPixels;
         DisplayWidth = displayMetrics.widthPixels;
+
     }
 
     @Override
@@ -66,6 +82,25 @@ public class StreamActivity extends Activity implements IVLCVout.Callback {
         createPlayer(mFilePath);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
+
+    @Override
+    protected void onDestroy() {
+       super.onDestroy();
+
+        try {
+            cdt.cancel();
+            cdt = null;
+        } catch (Exception as) {
+            as.printStackTrace();
+        }
+
+        releasePlayer();
+    }
 
 
     /*************
@@ -164,7 +199,25 @@ public class StreamActivity extends Activity implements IVLCVout.Callback {
         }
     }
 
-        @Override
+    // TODO: handle this cleaner
+    private void releasePlayer() {
+        if (libvlc == null)
+            return;
+        mMediaPlayer.stop();
+        final IVLCVout vout = mMediaPlayer.getVLCVout();
+        vout.removeCallback(this);
+        vout.detachViews();
+        holder = null;
+        libvlc.release();
+        libvlc = null;
+
+        mVideoWidth = 0;
+        mVideoHeight = 0;
+    }
+
+    private MediaPlayer.EventListener mPlayerListener = new MyPlayerListener(this);
+
+    @Override
     public void onSurfacesCreated(IVLCVout vlcVout) {
 
     }
@@ -172,5 +225,42 @@ public class StreamActivity extends Activity implements IVLCVout.Callback {
     @Override
     public void onSurfacesDestroyed(IVLCVout vlcVout) {
 
+    }
+
+    private static class MyPlayerListener implements MediaPlayer.EventListener {
+        private WeakReference<StreamActivity> mOwner;
+
+        public MyPlayerListener(StreamActivity owner) {
+            mOwner = new WeakReference<StreamActivity>(owner);
+        }
+
+        @Override
+        public void onEvent(MediaPlayer.Event event) {
+            StreamActivity player = mOwner.get();
+
+            switch(event.type) {
+                case MediaPlayer.Event.EndReached:
+                    Log.d("End", "MediaPlayerEndReached");
+                    player.releasePlayer();
+                    break;
+                case MediaPlayer.Event.Playing:
+                case MediaPlayer.Event.Paused:
+                case MediaPlayer.Event.Stopped:
+                default:
+                    break;
+            }
+        }
+    }
+
+    void startRepeatingTask() {
+        try {
+            mStatusChecker.run();
+        }catch (Exception as){as.printStackTrace();}
+    }
+
+    void stopRepeatingTask() {
+        try {
+            mHandler.removeCallbacks(mStatusChecker);
+        }catch (Exception as){as.printStackTrace();}
     }
 }
