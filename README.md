@@ -1,11 +1,11 @@
-# vlc-plugin
+# capacitor-vlc-plugin
 
 A vlc capacitor plugin for Ionic
 
 ## Install
 
 ```bash
-npm install vlc-plugin
+npm install capacitor-vlc-plugin
 npx cap sync
 ```
 
