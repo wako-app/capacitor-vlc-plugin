@@ -1,6 +1,6 @@
 {
   "name": "capacitor-vlc-plugin",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "A vlc capacitor plugin for Ionic",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -17,10 +17,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pstavrianidis/vlc-capacitor-plugin.git.git"
+    "url": "git+https://github.com/pstavrianidis/capacitor-vlc-plugin.git.git"
   },
   "bugs": {
-    "url": "https://github.com/pstavrianidis/vlc-capacitor-plugin.git/issues"
+    "url": "https://github.com/pstavrianidis/capacitor-vlc-plugin.git/issues"
   },
   "keywords": [
     "capacitor",
@@ -74,5 +74,10 @@
     "android": {
       "src": "android"
     }
-  }
+  },
+  "homepage": "https://github.com/pstavrianidis/capacitor-vlc-plugin.git#readme",
+  "directories": {
+    "example": "example"
+  },
+  "dependencies": {}
 }
