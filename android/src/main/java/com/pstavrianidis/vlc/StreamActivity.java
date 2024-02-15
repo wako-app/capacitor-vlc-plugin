@@ -1,4 +1,4 @@
-package com.wako.plugin.capacitor.vlc;
+package com.pstavrianidis.vlc;
 
 import android.app.Activity;
 import android.content.res.Configuration;
