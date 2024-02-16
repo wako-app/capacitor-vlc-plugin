@@ -1,10 +1,10 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { VlcPlayerPlugin } from './definitions';
+import type { CapacitorVlcPlayerPlugin } from './definitions';
 
-export class VlcPlayerWeb extends WebPlugin implements VlcPlayerPlugin {
+export class CapacitorVlcPlayerWeb extends WebPlugin implements CapacitorVlcPlayerPlugin {
   async stream(options: { link: string }): Promise<{ link: string }> {
-      console.log('channels: ', options.link);
-      return options;
+    console.log('channels: ', options.link);
+    return options;
   }
 }

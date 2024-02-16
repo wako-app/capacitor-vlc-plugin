@@ -1,10 +1,10 @@
 import { registerPlugin } from '@capacitor/core';
 
-import type { VlcPlayerPlugin } from './definitions';
+import type { CapacitorVlcPlayerPlugin } from './definitions';
 
-const VlcPlayer = registerPlugin<VlcPlayerPlugin>('VlcPlayer', {
-  web: () => import('./web').then(m => new m.VlcPlayerWeb()),
+const CapacitorVlcPlayer = registerPlugin<CapacitorVlcPlayerPlugin>('CapacitorVlcPlayer', {
+  web: () => import('./web').then((m) => new m.CapacitorVlcPlayerWeb()),
 });
 
 export * from './definitions';
-export { VlcPlayer };
+export { CapacitorVlcPlayer };
